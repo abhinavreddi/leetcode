@@ -1,28 +1,29 @@
 class Solution {
     public String removeDuplicateLetters(String s) {
-        HashMap<Character,Integer> lastOcc = new HashMap<>();
+        Stack<Character> stk = new Stack<>();
+        int[] last = new int[26];
+        boolean[] visited = new boolean[26];
         for(int i =0;i<s.length();i++){
-            lastOcc.put(s.charAt(i),i);
+            last[s.charAt(i)-'a']=i;
         }
 
-        Stack<Character> stk = new Stack<>();
-        HashSet<Character> visited = new HashSet<>();
         for(int i =0;i<s.length();i++){
-            if(visited.contains(s.charAt(i))){
+            char ch = s.charAt(i);
+            if(visited[ch-'a']==true){
                 continue;
             }
-            while(!stk.isEmpty() && s.charAt(i) < stk.peek() && i< lastOcc.getOrDefault(stk.peek(),-1)){
-                visited.remove(stk.pop());
+            while(!stk.isEmpty() && stk.peek()>ch && last[stk.peek()-'a']>i){
+                visited[stk.pop()-'a']=false;
             }
-            visited.add(s.charAt(i));
-            stk.push(s.charAt(i));
+            stk.push(ch);
+            visited[ch - 'a'] = true;
         }
-        
+
         StringBuilder res = new StringBuilder();
-        for(char ch: stk){
+        for(char ch : stk){
             res.append(ch);
         }
+
         return res.toString();
-        
     }
 }
