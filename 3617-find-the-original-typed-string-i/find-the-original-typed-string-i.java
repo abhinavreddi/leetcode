@@ -1,24 +1,16 @@
 class Solution {
     public int possibleStringCount(String word) {
-        int totalVariants = 1; 
-        int i = 0;
-        boolean usedTrim = false;
+        int res =0;
+        char prev = word.charAt(0);
 
-        while (i < word.length()) {
-            int j = i;
-            while (j < word.length() && word.charAt(j) == word.charAt(i)) {
-                j++;
+        for(int i =1;i<word.length();i++){
+            if(word.charAt(i)== prev){
+                res++;
+            }else{
+                prev = word.charAt(i);
             }
-
-            int groupLen = j - i;
-
-            if (groupLen > 1) {
-                totalVariants += (groupLen - 1);
-            }
-
-            i = j;
         }
 
-        return totalVariants;
+        return res+1;
     }
 }
